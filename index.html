@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hacked by V01D</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+    font-family: "Courier New", monospace;
+  }
+
+  #matrix {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.35;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .skull {
+    font-size: clamp(64px, 12vw, 120px);
+    line-height: 1;
+    color: #00ff41;
+    text-shadow: 0 0 12px #00ff41, 0 0 40px #00ff41;
+    animation: pulse 1.6s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.55; transform: scale(0.96); }
+  }
+
+  .glitch {
+    position: relative;
+    font-size: clamp(28px, 7vw, 68px);
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #00ff41;
+    margin: 22px 0 10px;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px #00ff41;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff003c;
+    animation: glitch-a 2.2s infinite linear alternate-reverse;
+  }
+
+  .glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 #00e5ff;
+    animation: glitch-b 1.7s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitch-a {
+    0%   { clip-path: inset(0 0 92% 0); }
+    20%  { clip-path: inset(78% 0 8% 0); }
+    40%  { clip-path: inset(34% 0 55% 0); }
+    60%  { clip-path: inset(88% 0 2% 0);  }
+    80%  { clip-path: inset(12% 0 80% 0); }
+    100% { clip-path: inset(55% 0 30% 0); }
+  }
+
+  @keyframes glitch-b {
+    0%   { clip-path: inset(65% 0 20% 0); }
+    20%  { clip-path: inset(10% 0 75% 0); }
+    40%  { clip-path: inset(90% 0 3% 0);  }
+    60%  { clip-path: inset(40% 0 48% 0); }
+    80%  { clip-path: inset(2% 0 90% 0);  }
+    100% { clip-path: inset(70% 0 18% 0); }
+  }
+
+  .handle {
+    font-size: clamp(18px, 3.5vw, 30px);
+    color: #00ff41;
+    text-shadow: 0 0 10px #00ff41;
+    margin-bottom: 8px;
+    letter-spacing: 3px;
+  }
+
+  .handle span {
+    color: #fff;
+    text-shadow: 0 0 14px #00ff41, 0 0 30px #00ff41;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    font-size: clamp(11px, 1.8vw, 14px);
+    color: #007a1f;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="wrap">
+  <div class="skull">☠</div>
+  <h1 class="glitch" data-text="HACKED BY V01D">HACKED BY V01D</h1>
+  <div class="handle">→ <span>V01D</span> ←</div>
+</div>
+
+<div class="footer">// segurança de merda ein kkj //</div>
+
+<script>
+/* ---------- matrix rain ---------- */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+let cols, drops;
+const chars = "アイウエオカキクケコサシスセソ0123456789ABCDEFｱｲｳｴｵ<>/\\{}[]#$%&*".split("");
+const FONT = 16;
+
+function resize() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  cols = Math.floor(canvas.width / FONT);
+  drops = new Array(cols).fill(1).map(() => Math.random() * -100);
+}
+resize();
+window.addEventListener("resize", resize);
+
+function draw() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#00ff41";
+  ctx.font = FONT + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const ch = chars[Math.floor(Math.random() * chars.length)];
+    const x = i * FONT;
+    const y = drops[i] * FONT;
+
+    ctx.fillText(ch, x, y);
+
+    if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  }
+}
+setInterval(draw, 45);
+</script>
+
+</body>
+</html>
